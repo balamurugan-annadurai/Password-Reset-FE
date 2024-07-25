@@ -21,6 +21,7 @@ const ResetPage = () => {
             }
             else {
                 setVerified(false);
+                setLinkExpired(true);
             }
             if (res.data.message == "link expired") {
                 setLinkExpired(true)
@@ -130,7 +131,7 @@ const ResetPage = () => {
 
             :
 
-            <NotFoundPage/>
+            <NotFoundPage linkExpired={linkExpired} />
     )
 
 
