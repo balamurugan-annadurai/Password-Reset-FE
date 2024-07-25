@@ -16,14 +16,14 @@ const ResetPage = () => {
     useEffect(() => {
         axios.post("/verifystring", { verificationString }).then(res => {
             if (res.data.message == "matched") {
-                
+
             }
             else {
                 setVerified(false);
                 navigate("/404page");
             }
         })
-    }, [verificationString])
+    }, [verified])
 
     const handleSignUpClick = () => {
         navigate("/")
