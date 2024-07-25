@@ -7,7 +7,7 @@ const NotFoundPage = () => {
     const [count, setCount] = useState(0);
     setTimeout(() => {
         setCount(1);
-    }, 3000);
+    }, 6000);
 
 
     return (
