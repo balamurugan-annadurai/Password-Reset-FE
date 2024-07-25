@@ -11,7 +11,7 @@ import SuccessMsg from './SuccessMsg'
 const ResetPage = () => {
     const navigate = useNavigate();
     const { verificationString } = useParams();
-    const [verified, setVerified] = useState();
+    const [verified, setVerified] = useState(true);
 
     useEffect(() => {
         axios.post("/verifystring", { verificationString }).then(res => {
@@ -19,6 +19,7 @@ const ResetPage = () => {
                 setVerified(true);
             }
             else {
+                setVerified(false);
                 setVerified(false);
                 navigate("/404page");
             }
@@ -79,7 +80,7 @@ const ResetPage = () => {
     return (
 
         
-
+             verified &&
             <div className='vh-100 d-flex justify-content-center align-items-center bg-color'>
                 <div className="outer-container">
                     <p className='title'>Reset Password</p>
