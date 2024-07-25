@@ -7,7 +7,7 @@ const NotFoundPage = ({ linkExpired }) => {
     const [count, setCount] = useState(0);
     setTimeout(() => {
         setCount(1);
-    }, 6000);
+    }, 2000);
 
 
     return (
