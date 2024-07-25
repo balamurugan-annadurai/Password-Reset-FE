@@ -11,19 +11,22 @@ import SuccessMsg from './SuccessMsg'
 const ResetPage = () => {
     const navigate = useNavigate();
     const { verificationString } = useParams();
-    const [verified, setVerified] = useState(true);
+    const [verified, setVerified] = useState();
+    const [linkExpired, setLinkExpired] = useState(false);
 
     useEffect(() => {
         axios.post("/verifystring", { verificationString }).then(res => {
             if (res.data.message == "matched") {
-
+                setVerified(true);
             }
             else {
                 setVerified(false);
-                navigate("/404page");
+            }
+            if (res.data.message == "link expired") {
+                setLinkExpired(true)
             }
         })
-    }, [verified])
+    }, [verificationString])
 
     const handleSignUpClick = () => {
         navigate("/")
@@ -78,8 +81,8 @@ const ResetPage = () => {
     })
     return (
 
-        
-             verified &&
+        verified ?
+
             <div className='vh-100 d-flex justify-content-center align-items-center bg-color'>
                 <div className="outer-container">
                     <p className='title'>Reset Password</p>
@@ -125,7 +128,9 @@ const ResetPage = () => {
                 />
             </div>
 
-            
+            :
+
+            <NotFoundPage/>
     )
 
 
