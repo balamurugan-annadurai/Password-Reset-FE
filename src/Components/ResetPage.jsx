@@ -16,10 +16,9 @@ const ResetPage = () => {
     useEffect(() => {
         axios.post("/verifystring", { verificationString }).then(res => {
             if (res.data.message == "matched") {
-                setVerified(true);
+                
             }
             else {
-                setVerified(false);
                 setVerified(false);
                 navigate("/404page");
             }
