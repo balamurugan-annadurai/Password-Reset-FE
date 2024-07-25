@@ -12,7 +12,6 @@ const ResetPage = () => {
     const navigate = useNavigate();
     const { verificationString } = useParams();
     const [verified, setVerified] = useState();
-    const [linkExpired, setLinkExpired] = useState(false);
 
     useEffect(() => {
         axios.post("/verifystring", { verificationString }).then(res => {
@@ -21,9 +20,7 @@ const ResetPage = () => {
             }
             else {
                 setVerified(false);
-            }
-            if (res.data.message == "link expired") {
-                setLinkExpired(true)
+                navigate("/404page");
             }
         })
     }, [verificationString])
@@ -81,7 +78,7 @@ const ResetPage = () => {
     })
     return (
 
-        verified ?
+        
 
             <div className='vh-100 d-flex justify-content-center align-items-center bg-color'>
                 <div className="outer-container">
@@ -128,9 +125,7 @@ const ResetPage = () => {
                 />
             </div>
 
-            :
-
-            <NotFoundPage/>
+            
     )
 
 
