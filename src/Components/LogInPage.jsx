@@ -7,21 +7,30 @@ import { toast, Slide, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const LogInPage = () => {
+
+    // Initialize navigate function for redirecting
     const navigate = useNavigate();
 
+    // Function to handle click event to redirect to home page
     const handleSignUpClick = () => {
         navigate("/")
     }
 
+    // Function to handle click event to redirect to forgot password page
     const handleForgotPasswordClick = () => {
         navigate("/forgotpassword")
     }
 
+    // Set up formik for form handling and validation
     const formik = useFormik({
+
+        // Initial values
         initialValues: {
             email: '',
             password: ''
         },
+
+        // Validations
         validationSchema: yup.object({
             email: yup.string()
                 .email('Invalid email')
@@ -29,11 +38,12 @@ const LogInPage = () => {
             password: yup.string()
                 .required("Password is required")
         }),
-        onSubmit: (values) => {
+
+        onSubmit: (values) => {   // Function to handle form submission
             axios.post("/login", values).then(res => {
                 if (res.data.message == "Password matched") {
                     formik.resetForm();
-                    toast.success("Login successfull", {
+                    toast.success("Login successfull", {  // Notification
                         position: "top-right",
                         autoClose: 5000,
                         hideProgressBar: false,
@@ -45,14 +55,14 @@ const LogInPage = () => {
                     });
                 }
                 else if (res.data.message == "User not found") {
-                    toast.error("User not registered");
+                    toast.error("User not registered");  // Notification
                 }
                 else {
-                    toast.error("Incorrect password");
+                    toast.error("Incorrect password"); // Notification
                 }
 
             }).catch(res => {
-                toast.error("Login failed. Please try again later.");
+                toast.error("Login failed. Please try again later."); // Notification
             })
         }
     })
@@ -91,6 +101,8 @@ const LogInPage = () => {
                 <p className='d-flex justify-content-center text2'>Don't Have An Account? <span onClick={handleSignUpClick}>Sign Up</span></p>
                 <p className='d-flex justify-content-center mt-0 p-0 text2'><span onClick={handleForgotPasswordClick}>Forgot Password</span></p>
             </div>
+
+            {/* Toast container for displaying notifications */}
             <ToastContainer
                 position="top-right"
                 autoClose={5000}

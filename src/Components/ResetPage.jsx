@@ -6,15 +6,24 @@ import * as yup from 'yup'
 import { toast, Slide, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import NotFoundPage from './NotFoundPage'
-import SuccessMsg from './SuccessMsg'
 
 const ResetPage = () => {
+
+    // Initialize navigate function for redirecting
     const navigate = useNavigate();
+
+    // Retrieve verification string from URL parameters
     const { verificationString } = useParams();
+
+    // State to track if the verification string is valid
     const [verified, setVerified] = useState();
+
+    // State to track if the link has expired
     const [linkExpired, setLinkExpired] = useState(false);
 
+    // Check the validity of the verification string when the component mounts or verificationString changes
     useEffect(() => {
+        // POST Call
         axios.post("/verifystring", { verificationString }).then(res => {
             if (res.data.message == "matched") {
                 setVerified(true);
@@ -29,36 +38,34 @@ const ResetPage = () => {
         })
     }, [verificationString])
 
-    const handleSignUpClick = () => {
-        navigate("/")
-    }
-
-    const handleForgotPasswordClick = () => {
-        navigate("/resetpassword")
-    }
-
+    // Set up formik for form handling and validation
     const formik = useFormik({
+
+        // Initial values
         initialValues: {
             newPassword: '',
             confirmPassword: ''
         },
+
+        // Validations
         validationSchema: yup.object({
             newPassword: yup.string()
                 .required('Required')
                 .min(8, "Password should be min 8 characters"),
             confirmPassword: yup.string().required("Required")
         }),
-        onSubmit: async (values) => {
+
+        onSubmit: async (values) => { // Function to handle form submission
             const { newPassword, confirmPassword } = values;
             if (newPassword != confirmPassword) {
 
-                toast.error("Password not matching")
+                toast.error("Password not matching") // Notification
             }
             else {
                 try {
                     const response = await axios.post("/changepassword", { verificationString, newPassword })
                     if (response.data.message == "Password changed") {
-                        toast.success("Password reset successfully", {
+                        toast.success("Password reset successfully", { // Notification
                             position: "top-right",
                             autoClose: 5000,
                             hideProgressBar: false,
@@ -75,7 +82,7 @@ const ResetPage = () => {
                     }
 
                 } catch (error) {
-                    toast.error("Failed to reset password");
+                    toast.error("Failed to reset password"); // Notification
                 }
             }
         }
@@ -116,6 +123,8 @@ const ResetPage = () => {
                         <button className='custom-btn' type="submit">Reset Password</button>
                     </form>
                 </div>
+                
+                {/* Toast container for displaying notifications */}
                 <ToastContainer
                     position="top-right"
                     autoClose={5000}

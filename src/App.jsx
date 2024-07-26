@@ -5,10 +5,11 @@ import LogInPage from './Components/LogInPage'
 import PasswordResetPage from './Components/PasswordResetPage'
 import './App.css'
 import ResetPage from './Components/ResetPage'
-import SuccessMsg from './Components/SuccessMsg'
 import NotFoundPage from './Components/NotFoundPage'
 
 const App = () => {
+
+  // Define the routing configuration  
   const router = createBrowserRouter([
     {
       path: "/",
@@ -32,6 +33,7 @@ const App = () => {
     }
   ])
   return (
+  // Render the RouterProvider with the configured router
     <RouterProvider router={router}/>
   )
 }

@@ -7,15 +7,25 @@ import { toast, Slide, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const SignUpPage = () => {
+
+    // Initialize the navigate function for redirecting
     const navigate = useNavigate();
+
+    // Function to handle click event for returning to login page
     const handleLoginClick = () => {
         navigate("/login")
     }
+
+    // Set up formik for form handling and validation
     const formik = useFormik({
+
+        // Initial values
         initialValues: {
             email: '',
             password: ''
         },
+
+        // Validations
         validationSchema: yup.object({
             email: yup.string()
                 .email('Invalid email')
@@ -24,11 +34,14 @@ const SignUpPage = () => {
                 .required("Password is required")
                 .min(8, "Password should be min 8 characters")
         }),
-        onSubmit: (values) => {
-            axios.post("/register", values).then(res => {
+
+
+        onSubmit: (values) => { // Function to handle form submission
+
+            axios.post("/register", values).then(res => { // POST call
                 if (res.data.status) {
                     formik.resetForm();
-                    toast.success("User registered successfully", {
+                    toast.success("User registered successfully", { // Notification
                         position: "top-right",
                         autoClose: 5000,
                         hideProgressBar: false,
@@ -40,11 +53,11 @@ const SignUpPage = () => {
                     });
                 }
                 else {
-                    toast.error("User already registered");
+                    toast.error("User already registered"); // Notification
                 }
 
             }).catch(res => {
-                toast.error("Registration failed, Please try again later");
+                toast.error("Registration failed, Please try again later"); // Notification
             })
 
         }
@@ -83,6 +96,9 @@ const SignUpPage = () => {
                 </form>
                 <p className='d-flex justify-content-center g-2 text2'>Already Have An Account? <span onClick={handleLoginClick}>Login</span></p>
             </div>
+
+            {/* Toast container for displaying notifications */}
+
             <ToastContainer
                 position="top-right"
                 autoClose={5000}

@@ -4,6 +4,8 @@ import loader from "../assets/loading.gif"
 import "../App.css"
 
 const NotFoundPage = ({ linkExpired }) => {
+
+    //  State to track the count
     const [count, setCount] = useState(0);
     setTimeout(() => {
         setCount(1);
