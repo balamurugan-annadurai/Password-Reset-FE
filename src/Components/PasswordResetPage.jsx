@@ -6,8 +6,11 @@ import * as yup from 'yup'
 import { toast, Slide, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SuccessMsg from './SuccessMsg'
+import ReactLoading from 'react-loading';
+
 
 const PasswordResetPage = () => {
+    const [loading, setLoading] = useState(false);
 
     // Initialize navigate function for redirecting
     const navigate = useNavigate();
@@ -36,7 +39,9 @@ const PasswordResetPage = () => {
         }),
 
         onSubmit: (values) => { // Function to handle form submission
+            setLoading(true);
             axios.post("/forgotpassword", values).then(res => {
+                setLoading(false);
                 if (res.data.message == "User not found") {
                     toast.error("User not registered"); // Notification
                 }
@@ -56,6 +61,7 @@ const PasswordResetPage = () => {
                     }, 6000);
                 }
             }).catch(err => {
+                setLoading(false);
                 toast.error("Please try again later"); // Notification
             })
         }
@@ -97,6 +103,12 @@ const PasswordResetPage = () => {
                     draggable
                     pauseOnHover
                 />
+                {
+                    loading &&
+                    <div className="loading-container">
+                        <ReactLoading type="spinningBubbles" color="#ed7632" />
+                    </div>
+                }
             </div>
     )
 }

@@ -104,3 +104,13 @@ p{
 .not-found-page-img{
     width: 400px;
 }
+.loading-container{
+    z-index: 100;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.3);
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

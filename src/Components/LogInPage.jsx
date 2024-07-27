@@ -1,13 +1,14 @@
 import axios from 'axios'
 import { useFormik } from 'formik'
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 import { toast, Slide, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ReactLoading from 'react-loading';
 
 const LogInPage = () => {
-
+    const [loading, setLoading] = useState(false);
     // Initialize navigate function for redirecting
     const navigate = useNavigate();
 
@@ -40,7 +41,9 @@ const LogInPage = () => {
         }),
 
         onSubmit: (values) => {   // Function to handle form submission
+            setLoading(true);
             axios.post("/login", values).then(res => {
+                setLoading(false);
                 if (res.data.message == "Password matched") {
                     formik.resetForm();
                     toast.success("Login successfull", {  // Notification
@@ -62,6 +65,7 @@ const LogInPage = () => {
                 }
 
             }).catch(res => {
+                setLoading(false);
                 toast.error("Login failed. Please try again later."); // Notification
             })
         }
@@ -114,6 +118,12 @@ const LogInPage = () => {
                 draggable
                 pauseOnHover
             />
+            {
+                loading &&
+                <div className="loading-container">
+                    <ReactLoading type="spinningBubbles" color="#ed7632" />
+                </div>
+            }
         </div>
     )
 }
